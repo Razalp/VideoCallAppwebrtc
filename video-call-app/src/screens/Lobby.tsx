@@ -22,7 +22,7 @@ const Lobby = () => {
 
       const handleJoinRoom = useCallback(
         (data:any) => {
-          const { email, room } = data;
+          const {  room } = data;
           navigate(`/room/${room}`);
         },
         [navigate]
