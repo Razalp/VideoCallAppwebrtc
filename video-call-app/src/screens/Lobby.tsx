@@ -1,19 +1,42 @@
 import { motion } from "framer-motion";
 import VideoCallImg from './7744490_3717792-removebg-preview.png';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSocket } from "../Context/SocketContext";
+import { useNavigate } from "react-router-dom";
 
 const Lobby = () => {
-    const [email, setEmail] = useState("");
-    const [room, setRoom] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [room, setRoom] = useState<string>("");;
+    const socket: any | undefined = useSocket();
+    const navigate = useNavigate();
 
-    const handleSubmitForm = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmitForm = useCallback(
+        (e:any) => {
+          e.preventDefault();
+          if (socket) {
+            socket?.emit("room:join", { email, room });
+          }
+        },
+        [email, room, socket]
+      );
 
-        console.log({
-            room,
-            email
-        });
-    },[room,email]); 
+      const handleJoinRoom = useCallback(
+        (data:any) => {
+          const { email, room } = data;
+          navigate(`/room/${room}`);
+        },
+        [navigate]
+      );
+    
+    useEffect(() => {
+        if (socket) {
+          socket?.on("room:join", handleJoinRoom);
+          return () => {
+            socket?.off("room:join", handleJoinRoom);
+          };
+        }
+      }, [socket, handleJoinRoom]);
+    
 
     return (
         <div className="h-screen w-full bg-gradient-to-tr from-gray-900 to-gray-700">
