@@ -151,12 +151,7 @@ const Room = () => {
         handleNegoNeedFinal,
     ]);
 
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-          navigate('/log-in')   
-        }
-      }, []);
+
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-black text-white text-sm bg-gradient-to-tr from-gray-900 to-gray-700">
