@@ -13,7 +13,7 @@ interface SocketProviderProps {
 }
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
-    const socket = useMemo(() => io(`https://videocallbackend-94f0.onrender.com`), []);
+    const socket = useMemo(() => io(`https://videocallbackend-rb49.onrender.com/`), []);
 
     return (
         <SocketContext.Provider value={socket}>
